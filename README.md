@@ -2,10 +2,10 @@
 Various implementations of matrix multiplications for NxN matrices.
 
 Languages:
-* [C](https://github.com/kloppstock/c/)
-* [FORTRAN](https://github.com/kloppstock/fortran/)
-* [Haskell](https://github.com/kloppstock/haskell/)
-* [Java](https://github.com/kloppstock/java/)
+* [C](https://github.com/kloppstock/squared_matrix_multiplication/tree/master/c/)
+* [FORTRAN](https://github.com/kloppstock/squared_matrix_multiplication/tree/master/fortran/)
+* [Haskell](https://github.com/kloppstock/squared_matrix_multiplication/tree/master/haskell/)
+* [Java](https://github.com/kloppstock/squared_matrix_multiplication/tree/master/java/)
 
 **Please note that this is still in development!**
 
