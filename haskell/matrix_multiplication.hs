@@ -25,20 +25,38 @@ randomFillMatrices i g1 g2 =
 initMul :: Int -> [Double] -> [Double] -> IO()
 initMul i xs ys = do
 	putStr "\ESC[2J" 
+        --force haskell to set all needed random values before mul
+        print (xs!!((i*2)-1))
+        print (ys!!((i*2)-1))
         --timestamp begin mul
 	print =<< getCurrentTime
-	endMul i (doMul i 0 xs ys)
+	endMul i (doMul i 0 (getRows i xs) (getColumns i 0 ys))
 
-doMul :: Int -> Int ->  [Double] -> [Double] -> [Double]
+getRows :: Int -> [Double] -> [[Double]]
+getRows i [] = []
+getRows i xs = [(take i xs)] ++ getRows i (drop i xs)
+
+getColumns :: Int -> Int -> [Double] -> [[Double]]
+getColumns i j xs =
+    if i > j
+    then [(singleColumn i j 0 xs)] ++ getColumns i (j+1) xs
+    else []
+
+singleColumn :: Int -> Int -> Int -> [Double] -> [Double]
+singleColumn i j k xs =
+    if i > k
+    then [head(drop j xs)] ++ singleColumn i j (k+1) (drop i xs)
+    else []
+
+doMul :: Int -> Int -> [[Double]] -> [[Double]] -> [Double]
 doMul i j xs ys 
-    | j >= 0 && j < (i*i) = [scalar i j 0 xs ys] 
+    | j >= 0 && j < (i*i) = [scalar i 0 (xs!!(div j i)) (ys!!(mod j i))]
         ++ doMul i (j+1) xs ys
     | otherwise = []
 
-scalar :: Int -> Int -> Int -> [Double] -> [Double] -> Double
-scalar i j k xs ys 
-    | k < i = (xs!!(((div j i)*i)+k)) * (ys!!((mod j i)+(k*i)))
-        + scalar i j (k+1) xs ys
+scalar :: Int -> Int -> [Double] -> [Double] -> Double
+scalar i j xs ys 
+    | i > j = (xs!!j)*(ys!!j) + scalar i (j+1) xs ys
     | otherwise = 0
 
 endMul :: Int -> [Double] -> IO()
