@@ -8,7 +8,7 @@ DEP=$(TARGET).c common.c multiply_matrices.c
 $(TARGET): $(DEP)
 	$(CC) -o $(TARGET) $(DEP) $(CFLAGS) $(LIBS)
 
-.PHONY: clean
+.PHONY: clean benchmark
 
 clean:
 	rm -f $(TARGET) *.o *~
