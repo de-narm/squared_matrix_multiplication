@@ -23,8 +23,9 @@ public class Matrix {
 		Matrix matrixA, matrixB;
 		Scanner scanner = new Scanner(System.in);
 		final int MIN_THREADS = 2;
-		final int MAX_THREADS = 6;
 		final int THREAD_INC = 1;
+		//gets number of CPU cores
+		final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
 		
 		ExecutorService es;
 		int choice;
