@@ -19,6 +19,6 @@ As for System.Random you need:
 cabal install random
 ```
 ##Usage
-
-There are no additional flags to be set, follow instructions on screen after 
-executing the file.
+```
+matrix_multiplication <number>
+```
