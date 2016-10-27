@@ -47,6 +47,7 @@ int get_cmd_args(int argc, char* argv[], int* help, size_t* size, char** path);
 
 /*
  * multiplies matrices (c = a x b)
+ * note: if matrix sizes don't match, nothing is done
  * @param c
  * @param a
  * @param b
