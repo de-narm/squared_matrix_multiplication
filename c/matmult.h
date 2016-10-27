@@ -13,6 +13,12 @@
 #include <time.h>
 
 /*
+ * defines the maximal size of matrices to execute only using one core
+ * NOTE: this has to be at least 4
+ */
+#define SINGLE_THREADED_UPPER_LIMIT 4
+
+/*
  * struct for matrices
  */
 struct mat

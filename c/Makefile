@@ -1,6 +1,5 @@
 CC=gcc
-OFLAGS=-O3
-#DFLAGS=-g -O0
+OFLAGS=-O3 -march=native
 LIBS=-pthread
 CFLAGS=-Wall -Wextra $(OFLAGS)
 TARGET=matmult

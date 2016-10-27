@@ -1,5 +1,8 @@
 #include "matmult.h"
 
+/*
+ * struct for the multithreaded multiply_matrices_part() function
+ */
 struct mult_mat_struct
 {
   struct mat a, b, c;
@@ -53,7 +56,7 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
   unsigned int i;
   pthread_t* threads;
   struct mult_mat_struct* args;
-  if(num_cores > 1)
+  if(num_cores > 1 && c.n > SINGLE_THREADED_UPPER_LIMIT)
     {
       threads = (pthread_t*)malloc(sizeof(pthread_t) * num_cores);
       args = (struct mult_mat_struct*)malloc(sizeof(struct mult_mat_struct) * num_cores);
@@ -96,16 +99,5 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
       s.first_row = 0;
       s.last_row = c.n;
       multiply_matrices_part(&s);
-
-
-
-      
-      //DEBUG
-      puts("DBUG: ONLY USING 1 thread!!!\n");
-
-
-
-
-      
-    }
+    }      
 }
