@@ -25,13 +25,25 @@ public class Matrix {
 		final int MIN_THREADS = 2;
 		final int THREAD_INC = 1;
 		//gets number of CPU cores
-		final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+		final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+		
+		int max_threads = NUMBER_OF_CORES;
+		int min_rc = 100;
+		int max_rc = 2000;
+		int max_print_size = 4;
 		
 		ExecutorService es;
+		
+		System.out.println("Quadratic Matrix Multiplication\nNumber of Available Cores: " + NUMBER_OF_CORES);
+		
 		int choice;
 		do{
 			//ask user if he wants a benchmark, to calculate a 
-			System.out.print("1 - Benchmark\n2 - Calculate\n3 - Exit\nOption: ");
+			System.out.print(
+					  "\n----------------------------------------------------"
+					+ "\n1 - Benchmark\n2 - Calculate\n3 - Options\n4 - Exit"
+					+ "\n----------------------------------------------------"
+					+ "\nOption: ");
 			try{
 				choice = scanner.nextInt();
 			} catch(Exception e){
@@ -51,11 +63,11 @@ public class Matrix {
 					}
 					//write results to console and file
 					writer.write("Size (Row/Column);Duration sequential (in ms)");
-					for(int tc = MIN_THREADS; tc <= MAX_THREADS; tc += THREAD_INC){
+					for(int tc = MIN_THREADS; tc <= max_threads; tc += THREAD_INC){
 						writer.write(";Duration " + tc + " Threads (in ms)");
 					}
 					writer.write("\n");
-					for(int size = 100; size < 2001; size+=100){
+					for(int size = min_rc; size <= max_rc; size += 100){
 						matrixA = Matrix.createRandomMatrix(size);
 						matrixB = Matrix.createRandomMatrix(size);
 						long timeStart = System.currentTimeMillis();
@@ -66,7 +78,7 @@ public class Matrix {
 						System.out.print("Size: " + size + "\tDuration (sequential): " + duration);
 						writer.write(size + ";" + duration);
 						
-						for(int tc = MIN_THREADS; tc <= MAX_THREADS; tc += THREAD_INC){
+						for(int tc = MIN_THREADS; tc <= max_threads; tc += THREAD_INC){
 							timeStart = System.currentTimeMillis();
 							//TODO: es = Executors.newCachedThreadPool();
 							es = Executors.newFixedThreadPool(tc);
@@ -89,8 +101,6 @@ public class Matrix {
 					break;
 				//calculation branch
 				case 2:
-					//print only matrices with up to 4 rows/columns
-					final int PRINT_MAX_SIZE = 4;
 					//ask user for size of matrices and if he wants to create values randomly or not
 					System.out.print("Size of Matrix: ");
 					int size;
@@ -100,7 +110,7 @@ public class Matrix {
 						size = 1;
 						scanner.nextLine();
 					}
-					System.out.print("Create random values (j/n)?");
+					System.out.print("Create random values (j/n)? Answer: ");
 					//create 2 random matrices
 					String random;
 					try{
@@ -111,14 +121,16 @@ public class Matrix {
 					if(random.compareTo("j") == 0){
 						matrixA = Matrix.createRandomMatrix(size);
 						matrixB = Matrix.createRandomMatrix(size);
-						System.out.println("First Matrix: ");
 						
-						if(matrixA.getSize() <= PRINT_MAX_SIZE)
+						
+						if(matrixA.getSize() <= max_print_size){
+							System.out.println("\nFirst Matrix:");
 							matrixA.print();
+						}
 						
-						System.out.println("Second Matrix: ");
 						
-						if(matrixB.getSize() <= PRINT_MAX_SIZE){
+						if(matrixB.getSize() <= max_print_size){
+							System.out.println("\nSecond Matrix:");
 							matrixB.print();
 						}
 						
@@ -132,21 +144,22 @@ public class Matrix {
 						matrixB.setValues(scanner);
 					}
 					//print result of sequential calculation to console and the required time 
-					System.out.println("Result (sequential): ");
+					System.out.println("\nResult (sequential):");
 					long timeStart = System.nanoTime();
 					Matrix matrixC = Matrix.multiply(matrixA, matrixB);
 					long timeEnd = System.nanoTime();
 					
-					if(matrixC.getSize() <= PRINT_MAX_SIZE)
+					if(matrixC.getSize() <= max_print_size){
 						matrixC.print();
+					}
 		
 					System.out.println("Duration: " + (timeEnd - timeStart) + " ns.");
 					
 					//print result of sequential calculation to console and the required time 
-					System.out.println("Result (" + MAX_THREADS + " Threads): ");
+					System.out.println("\nResult (" + max_threads + " Threads): ");
 					timeStart = System.nanoTime();
 					//TODO: es = Executors.newCachedThreadPool();
-					es = Executors.newFixedThreadPool(MAX_THREADS);
+					es = Executors.newFixedThreadPool(max_threads);
 					matrixC = Matrix.multiplyParallel(matrixA, matrixB, es);
 					//wait until all threads are finished
 					try {
@@ -156,14 +169,92 @@ public class Matrix {
 					}
 					timeEnd = System.nanoTime();
 					
-					if(matrixC.getSize() <= PRINT_MAX_SIZE)
+					if(matrixC.getSize() <= max_print_size)
 						matrixC.print();
 					
 					System.out.println("Duration: " + (timeEnd - timeStart) + " ns.");
 					break;
+				case 3:
+					do{
+						System.out.print(
+								  "\n----------------------------------------------------"
+								+ "\n1 - Maximum number of Threads (" + max_threads + " Threads)"
+								+ "\n2 - Calculation: Maximum size of printable matrix (" + max_print_size + ")" 
+								+ "\n3 - Benchmark: Minimum number of columns/rows (" + min_rc + ")"
+								+ "\n4 - Benchmark: Maximum number of columns/rows (" + max_rc + ")"
+								+ "\n5 - Back"
+								+ "\n----------------------------------------------------"
+								+ "\nOption: ");
+						try{
+							choice = scanner.nextInt();
+						}catch(Exception e){
+							choice = 0;
+						}
+						switch(choice){
+							case 1:
+								System.out.print("Number of maximum Threads: ");
+								try{
+									size = scanner.nextInt();
+									if(size >= MIN_THREADS){
+										max_threads = size;
+									}else{
+										System.out.println("Invalid value!");
+									}
+								}catch(Exception e){
+									scanner.nextLine();
+								}
+								break;
+							case 2:
+								System.out.print("Maximum size of printable Matrix: ");
+								try{
+									size = scanner.nextInt();
+									if(size >= 1){
+										max_print_size = size;
+									}else{
+										System.out.println("Invalid value!");
+									}
+								}catch(Exception e){
+									scanner.nextLine();
+								}
+								break;
+							case 3:
+								System.out.print("Minimum number of colums/rows (has to be a multiple of 100): ");
+								try{
+									size = scanner.nextInt();
+									if(size > 0){
+										size /= 100;
+										size = (size == 0) ? 100 : size * 100;
+										min_rc = (size > max_rc) ? max_rc : size;
+									}else{
+										System.out.println("Invalid value!");
+									}
+								}catch(Exception e){
+									scanner.nextLine();
+								}
+								break;
+							case 4:
+								System.out.print("Maximum number of colums/rows (has to be a multiple of 100): ");
+								try{
+									size = scanner.nextInt();
+									if(size > 0){
+										size /= 100;
+										size = (size == 0) ? 100 : size * 100;
+										max_rc = (size < min_rc) ? min_rc : size;
+									}else{
+										System.out.println("Invalid value!");
+									}
+								}catch(Exception e){
+									scanner.nextLine();
+								}
+								break;
+						}
+					
+					}while(choice != 5);
+					choice = 0;
+					break;
 			}
 			//exit if user chooses option 3
-		}while(choice != 3);
+		}while(choice != 4);
 		System.out.println("\nGoodbye!");
 	}
 	
