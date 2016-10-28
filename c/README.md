@@ -14,3 +14,7 @@ matmult [-f | --file <path>] [-h | --help] [-s | --size <size>]
 	-s, --size	number of columns and rows
 ```
 `matmult <number>` is also valid. It is equivalent to `matmult -s <number>` or `matmult --size <number>`.
+
+##Benchmark
+
+Use `python ./benchmark.py` to create a csv file with time values for n = 100, 200, ..., 2000

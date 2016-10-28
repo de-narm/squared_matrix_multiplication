@@ -13,6 +13,12 @@
 #include <time.h>
 
 /*
+ * defines the maximal size of matrices to execute only using one core
+ * NOTE: this has to be at least 4
+ */
+#define SINGLE_THREADED_UPPER_LIMIT 4
+
+/*
  * struct for matrices
  */
 struct mat
@@ -47,6 +53,7 @@ int get_cmd_args(int argc, char* argv[], int* help, size_t* size, char** path);
 
 /*
  * multiplies matrices (c = a x b)
+ * note: if matrix sizes don't match, nothing is done
  * @param c
  * @param a
  * @param b

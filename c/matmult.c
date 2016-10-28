@@ -1,11 +1,6 @@
 #include "matmult.h"
 
 /*
-TODO:
-- USE RANDOM VALUES FOR THE MATRIX VALUES!
- */
-
-/*
  * creates matrices, initialises them, multiplies them and write the result to a file
  * command line arguments:
  *   -s or --size for the number of columns and rows (has to be greater than 0)
@@ -68,8 +63,7 @@ int main (int argc, char* argv[])
 	{
 	  for(y = 0; y < n; ++y)
 	    {
-              //TODO: use random numbers here
-	      m[i].data[y * n + x] = 1.0 / (double)(y * n + x + 1);
+	      m[i].data[y * n + x] = (double)rand() / (double)RAND_MAX;
 	    }
 	}
     }  

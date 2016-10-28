@@ -1,3 +1,4 @@
 *~
 *.o
 c/matmult
+c/results.csv

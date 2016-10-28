@@ -1,14 +1,14 @@
 CC=gcc
-OFLAGS=-O3
-#DFLAGS=-g -O0
+OFLAGS=-O3 -march=native
+LIBS=-pthread
 CFLAGS=-Wall -Wextra $(OFLAGS)
 TARGET=matmult
 DEP=$(TARGET).c common.c multiply_matrices.c
 
 $(TARGET): $(DEP)
-	$(CC) -o $(TARGET) $(DEP) $(CFLAGS)
+	$(CC) -o $(TARGET) $(DEP) $(CFLAGS) $(LIBS)
 
-.PHONY: clean
+.PHONY: clean benchmark
 
 clean:
 	rm -f $(TARGET) *.o *~
