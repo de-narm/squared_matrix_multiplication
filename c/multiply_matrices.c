@@ -56,8 +56,13 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
   unsigned int i;
   pthread_t* threads;
   struct mult_mat_struct* args;
-  if(num_cores > 1 && c.n > SINGLE_THREADED_UPPER_LIMIT)
+  if(num_cores > 1)
     {
+      if((size_t)num_cores > c.n)
+	{
+	  //use fewer cores to match the matrix sizes
+	  num_cores = c.n;
+	}
       threads = (pthread_t*)malloc(sizeof(pthread_t) * num_cores);
       args = (struct mult_mat_struct*)malloc(sizeof(struct mult_mat_struct) * num_cores);
       //start threads
@@ -72,6 +77,11 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
 	      args[i].c = c;
 	      args[i].first_row = i * rows;
 	      args[i].last_row = args[i].first_row + rows;
+	      if(i == (num_cores - 1))
+		{
+		  //avoid leaving out the last lines because of inaccuracy
+		  args[i].last_row = c.n;
+		}
 	      if(pthread_create(&threads[i], NULL, multiply_matrices_part, &args[i]) != 0)
 		{
 		  use_single_core = 1;
