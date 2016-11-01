@@ -10,6 +10,9 @@ module matrix
         n = size(matrix_a, 1)
         allocate(matrix_r(n, n))
 
+        !$OMP parallel shared(matrix_a, matrix_b, matrix_r, n) private(i, j, s, k)
+
+        !$OMP parallel do
         do i = 1, n
             do j = 1, n
                 s = 0.0
@@ -19,6 +22,9 @@ module matrix
                 matrix_r(i, j) = s
             end do
         end do
+        !$OMP end parallel do
+
+        !$OMP end parallel
     end function matmul
 
     subroutine load_matrix(infile, matrix_a, matrix_b)
