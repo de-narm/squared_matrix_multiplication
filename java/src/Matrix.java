@@ -45,7 +45,7 @@ public class Matrix {
 				choice = 1;
 				for(int i = 0; i < args.length; i++){
 					
-					if(args[i].compareTo("-t") == 0){
+					if(args[i].compareTo("--t") == 0){
 						if(args.length > i){
 							try{
 								max_threads = Integer.parseInt(args[i+1]);
@@ -57,7 +57,7 @@ public class Matrix {
 								max_threads = NUMBER_OF_CORES;
 							}
 						}
-					} else if(args[i].compareTo("-min") == 0){
+					} else if(args[i].compareTo("--min") == 0){
 						if(args.length > i){
 							try{
 								min_rc = Integer.parseInt(args[i+1]);
@@ -68,7 +68,7 @@ public class Matrix {
 							min_rc /= 100;
 							min_rc = (min_rc == 0) ? 100 : min_rc * 100;
 						}
-					} else if(args[i].compareTo("-max") == 0){
+					} else if(args[i].compareTo("--max") == 0){
 						if(args.length > i){
 							try{
 								max_rc = Integer.parseInt(args[i+1]);
@@ -82,18 +82,21 @@ public class Matrix {
 					}
 				}
 			}else if(args[0].compareTo("-help") == 0){
-				System.out.println("-b [-t <maximum number of threads>] [-min <minumum number of rows/columns>]"
-						+ "[-max <maximum number of rows/columns>]\nWithout argument to open menu.");
+				System.out.println("-b [--t <maximum number of threads>] [--min <minumum number of rows/columns>]"
+						+ "[--max <maximum number of rows/columns>]\nWithout argument to open menu.");
 				System.exit(0);
 			}else{
 				System.out.println("Invalid argument!");
 				System.exit(INVALID_VALUE);
 			}
 		}
-		if(min_rc == 0) min_rc = 100;
-		if(max_rc == 0){
-			max_rc = (min_rc > 2000) ? min_rc : 2000;
+		
+		//if there is no console input set standard values
+		if(min_rc <= 0) min_rc = 100;
+		if(max_rc < min_rc){
+			max_rc = (max_rc != 0) ? min_rc : 2000;
 		}
+		
 		System.out.println("Quadratic Matrix Multiplication\nNumber of Available Cores: " + NUMBER_OF_CORES);
 		
 		do{
@@ -101,7 +104,7 @@ public class Matrix {
 				//ask user if he wants a benchmark, to calculate a 
 				System.out.print(
 						  "\n----------------------------------------------------"
-						+ "\n1 - Benchmark\n2 - Calculate\n3 - Options\n4 - Exit"
+						+ "\n1 - Benchmark\n2 - Calculate\n3 - Settings\n4 - Exit"
 						+ "\n----------------------------------------------------"
 						+ "\nOption: ");
 				try{
@@ -131,6 +134,7 @@ public class Matrix {
 					for(int size = min_rc; size <= max_rc; size += 100){
 						matrixA = Matrix.createRandomMatrix(size);
 						matrixB = Matrix.createRandomMatrix(size);
+						//sequential calculation
 						long timeStart = System.currentTimeMillis();
 						Matrix.multiply(matrixA, matrixB);
 						long timeEnd = System.currentTimeMillis();
@@ -138,7 +142,7 @@ public class Matrix {
 						
 						System.out.print("Size: " + size + "\tDuration (sequential): " + duration + " ms");
 						writer.write(size + ";" + duration);
-						
+						//parallel calculation
 						for(int tc = MIN_THREADS; tc <= max_threads; tc += THREAD_INC){
 							timeStart = System.currentTimeMillis();
 							es = Executors.newFixedThreadPool(tc);
@@ -158,6 +162,7 @@ public class Matrix {
 					}
 					writer.flush();
 					writer.close();
+					//exit after benchmark if program was called with arguments
 					if(console) System.exit(0);
 					break;
 				//calculation branch
@@ -234,6 +239,7 @@ public class Matrix {
 					
 					System.out.println("Duration: " + (timeEnd - timeStart) + " ns.");
 					break;
+				//Settings branch
 				case 3:
 					do{
 						System.out.print(
@@ -251,6 +257,7 @@ public class Matrix {
 							choice = 0;
 						}
 						switch(choice){
+							//set maximum number of threads
 							case 1:
 								System.out.print("Number of maximum Threads: ");
 								try{
@@ -264,6 +271,7 @@ public class Matrix {
 									scanner.nextLine();
 								}
 								break;
+							//set maximum size of printable matrix
 							case 2:
 								System.out.print("Maximum size of printable Matrix: ");
 								try{
@@ -277,6 +285,7 @@ public class Matrix {
 									scanner.nextLine();
 								}
 								break;
+							//set minimum number of columns for benchmark
 							case 3:
 								System.out.print("Minimum number of colums/rows (has to be a multiple of 100): ");
 								try{
@@ -292,6 +301,7 @@ public class Matrix {
 									scanner.nextLine();
 								}
 								break;
+							//set maximum number of columns for benchmark
 							case 4:
 								System.out.print("Maximum number of colums/rows (has to be a multiple of 100): ");
 								try{
@@ -313,7 +323,7 @@ public class Matrix {
 					choice = 0;
 					break;
 			}
-			//exit if user chooses option 3
+		//exit if user chooses option 4
 		}while(choice != 4);
 		System.out.println("\nGoodbye!");
 	}
