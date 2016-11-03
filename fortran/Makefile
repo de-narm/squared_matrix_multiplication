@@ -1,6 +1,8 @@
 F90=gfortran
 FFLAGS=-O3
 
+PYTHON=python
+
 TARGET=matmul matmul_openmp
 SOURCE=$(TARGET:=.f90)
 
@@ -12,7 +14,10 @@ all: $(TARGET)
 %: %.f90
 	$(F90) $(FFLAGS) -o $@ $<
 
-clean:
-	rm -f $(TARGET)
+benchmark: all
+	$(PYTHON) benchmark.py
 
-.PHONY: clean all
+clean:
+	rm -f $(TARGET) results.csv
+
+.PHONY: clean all benchmark

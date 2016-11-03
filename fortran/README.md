@@ -9,3 +9,7 @@
 ##Run
 
 `./matmul <n>`
+
+##Benchmark
+
+`make benchmark`
