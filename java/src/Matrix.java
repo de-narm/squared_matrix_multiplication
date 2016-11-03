@@ -144,8 +144,8 @@ public class Matrix {
 						writer.write(size + ";" + duration);
 						//parallel calculation
 						for(int tc = MIN_THREADS; tc <= max_threads; tc += THREAD_INC){
-							timeStart = System.currentTimeMillis();
 							es = Executors.newFixedThreadPool(tc);
+							timeStart = System.currentTimeMillis();
 							Matrix.multiplyParallel(matrixA, matrixB, es);
 							try {
 								es.awaitTermination(7, TimeUnit.DAYS);
