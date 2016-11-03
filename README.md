@@ -11,4 +11,4 @@ Languages:
 
 ##License
 
-This project is licensed under the *INSERT LICENSE HERE* license. For further details see [LICENSE](https://github.com/kloppstock/LICENSE).
+This project is licensed under the [MIT license](LICENSE).
