@@ -3,6 +3,7 @@
 
 #include <getopt.h>
 #include <fcntl.h>
+#include <omp.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <stdio.h>

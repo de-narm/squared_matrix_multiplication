@@ -50,6 +50,7 @@ void* multiply_matrices_part(void* p)
  */
 void multiply_matrices(struct mat c, struct mat a, struct mat b)
 {
+  #ifdef NO_OPENMP
   long int num_cores = get_num_cpus();
   int use_single_core = 1;
   size_t rows;
@@ -109,5 +110,22 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
       s.first_row = 0;
       s.last_row = c.n;
       multiply_matrices_part(&s);
-    }      
+    }
+  #else
+  size_t x, y, i, index;
+  #pragma omp parallel for
+  for(y = 0; y < c.n; ++y)
+    {
+      for(x = 0; x < c.n; ++x)
+        {
+          //scalar product
+          index = y * c.n + x;
+          c.data[index] = 0;
+          for(i = 0; i < c.n; ++i)
+            {
+              c.data[index] += a.data[y * c.n + i] * b.data[i * c.n + x];
+	    }
+        }
+    }
+  #endif
 }
