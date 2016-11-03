@@ -5,6 +5,7 @@ This is the C version of the project.
 ##Build
 
 Use `make` to build and `make clean` to remove build files.
+If you don't want to use OpenMP, use `make no_openmp`.
 
 ##Usage
 ```
