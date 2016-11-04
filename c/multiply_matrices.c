@@ -113,6 +113,9 @@ void multiply_matrices(struct mat c, struct mat a, struct mat b)
     }
   #else
   size_t x, y, i, index;
+  //exit if the matrix sizes don't match
+  if(a.n != c.n || b.n != c.n)
+    return;
   #pragma omp parallel for
   for(y = 0; y < c.n; ++y)
     {
