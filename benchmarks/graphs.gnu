@@ -9,7 +9,7 @@ set grid xtics lc rgb "#999999" lw 1 lt 0
 set title "Matrix multiplication in C"
 set output "benchmark-c.png"
 set datafile separator ","
-plot "c_µs.csv" using 1:($2/1000) title "  C" with linespoint
+plot "c_µs.csv" using 1:($2/1000) title " C (OpenMP)" with linespoint
 
 # Fortran
 set title "Matrix multiplication in Fortran"
@@ -38,4 +38,4 @@ set output "benchmark-c+fortran+java.png"
 set datafile separator ","
 plot "<sed 's/;/,/g' java.csv" using 1:5 title "Java (4 threads)" with linespoint, \
      "fortran_sec.csv" using 1:($2*1000) title "Fortran" with linespoint, \
-     "c_µs.csv" using 1:($2/1000) title "C" with linespoint
+     "c_µs.csv" using 1:($2/1000) title "C (OpenMP)" with linespoint
