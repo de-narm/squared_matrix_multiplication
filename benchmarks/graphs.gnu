@@ -27,10 +27,10 @@ plot "haskell_sec.csv" using 1:($2*1000) title "Haskell" with linespoint
 set title "Matrix multiplication in Java"
 set output "benchmark-java.png"
 set datafile separator ";"
-plot "java.csv" using 1:2 title "sequential" with linespoint, \
-     "java.csv" using 1:3 title "2 threads" with linespoint, \
-     "java.csv" using 1:4 title "3 threads" with linespoint, \
-     "java.csv" using 1:5 title "4 threads" with linespoint, \
+plot "java.csv" using 1:2 title "sequential" with lines, \
+     "java.csv" using 1:3 title "2 threads" with lines, \
+     "java.csv" using 1:4 title "3 threads" with lines, \
+     "java.csv" using 1:5 title "4 threads" with lines, \
 
 # C, Fortran and Java
 set title "Matrix multiplication in C, Fortran and Java"
