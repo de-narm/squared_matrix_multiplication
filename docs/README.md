@@ -8,7 +8,7 @@ All versions in the 4 programming languages (FORTRAN, C (with OpenMP and pthread
 
 ##Algorithm
 
-`TODO: add these`
+![Algorithm](/Diagramm/Nassi-Shneidermann-Diagramm.png)
 
 ##Benchmarking system
 
@@ -27,7 +27,9 @@ The resulting theoretical Floating Point Peak Performance (FPPP) is calculated a
 
 ##Benchmarks
 
-`TODO: add these`
+For detailed performance graphs please see [benchmarks/README.md](/benchmarks/README.md).
+
+A performance table is also available at [benchmarks/benchmarks.csv](benchmarks/benchmarks.csv).
 
 ##Contributers
 
