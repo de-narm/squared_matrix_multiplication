@@ -9,7 +9,7 @@ Type:
 ```
 javac Matrix.java MatrixColumnMultiply.java
 ```
-Now you should have 2 .class files Matrix.class and MatrixColumnMultiply.class.
+Now there should be 2 .class files Matrix.class and MatrixColumnMultiply.class.
 Type:
 ```
 jar cfm Matrix.jar manifest Matrix.class and MatrixColumnMultiply.class
