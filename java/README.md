@@ -4,10 +4,17 @@ This is the Java version of the project.
 
 ##Compile
 
-.java files in /src folder
+First open the /src folder. There should be 3 file Matrix.java, MatrixColumnMultiply.java and manifest.
+Type:
 ```
 javac Matrix.java MatrixColumnMultiply.java
 ```
+Now you should have 2 .class files Matrix.class and MatrixColumnMultiply.class.
+Type:
+```
+jar cfm Matrix.jar manifest Matrix.class and MatrixColumnMultiply.class
+```
+If everything went right you should have now a .jar file named Matrix.jar
 
 ##Usage
 
