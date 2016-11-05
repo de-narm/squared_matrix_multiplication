@@ -14,7 +14,7 @@ Type:
 ```
 jar cfm Matrix.jar manifest Matrix.class and MatrixColumnMultiply.class
 ```
-If everything went right you should have now a .jar file named Matrix.jar
+If everything went right there should be a .jar file named Matrix.jar
 
 ##Usage
 
