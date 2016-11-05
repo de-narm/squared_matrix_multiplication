@@ -29,11 +29,15 @@ The resulting theoretical Floating Point Peak Performance (FPPP) is calculated a
 
 For detailed performance graphs please see [benchmarks/README.md](/benchmarks/README.md).
 
-A performance table is also available at [benchmarks/benchmarks.csv](benchmarks/benchmarks.csv).
+A performance table is also available at [benchmarks/benchmarks.csv](/benchmarks/benchmarks.csv).
+
+The size - performance table can be found at [benchmarks/performance.csv](/benchmarks/performance.csv).
 
 ##Contributers
 
-FORTRAN: Aaron Bulmahn (arbu) <br>
-C: Jonas Schenke (kloppstock) <br>
-Java: Matthias Nickel (matzeni07) <br>
-Haskell: Sebastian Benner (De-Narm)
+FORTRAN: Aaron Bulmahn [arbu](https://github.com/arbu) <br>
+C: Jonas Schenke [kloppstock](https://github.com/kloppstock) <br>
+Java: Matthias Nickel [matzeni07](https://github.com/matzeni07) <br>
+Haskell: Sebastian Benner [De-Narm](https://github.com/De-Narm)
+
+This project is hosted on [Github](https://github.com/kloppstock/squared_matrix_multiplication).
