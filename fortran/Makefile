@@ -1,5 +1,5 @@
 F90=gfortran
-FFLAGS=-O3
+FFLAGS=-O3 -march=native
 
 PYTHON=python
 
@@ -18,6 +18,6 @@ benchmark: all
 	$(PYTHON) benchmark.py
 
 clean:
-	rm -f $(TARGET) results.csv
+	rm -f $(TARGET) results.csv matrix.mod
 
 .PHONY: clean all benchmark
